@@ -1,11 +1,7 @@
 <?php 
-      $cursos = [
-            "ADS"   => "Análise e Desenvolvimento de Sistemas",
-            "COMEX" => "Comércio Exterior",
-            "DSM"   => "Desenvolvimento de Software Multiplataforma",
-            "GE"    => "Gestão Empresarial",
-            "PQ"    => "Processos Químicos",
-      ];
+      $usuarios = ["Ana", "Bruno", "Carlos", "Daniela", "Eduardo"];
+      $cursos = ["ADS","COMEX","DSM","GE","PQ"];
+      $periodos = ["Matutino", "Vespertino", "Noturno"];
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +13,52 @@
 </head>
 <body>
       <form action="#" method="post">
+            <label>Usuario:</label>
+            <br>
+            <?php
+                  foreach ($usuarios as $user){
+                        echo "<input type='radio' name='usuario' value='$user'>$user<br>";
+                  }
+            ?>
+      
+            <br>
             <label>Curso:</label>
             <select name="sltcurso">
-
+                  <?php
+                        foreach ($cursos as $c){
+                              echo "<option>$c</option>";
+                        }
+                  ?>
             </select>
+            <br><br>
+
+            <label>Período</label>
+            <?php
+                  foreach($periodos as $p){
+                        echo "<input type='checkbox' name='periodo[]' value='$p'>$p";
+                  }
+            ?>
+            <br><br>
+            <input type="submit" value="Enviar">
       </form>
+
+      <?php 
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                  
+                  $usuarios = isset($_POST["usuario"]) ? $_POST["usuario"] : 'NI';
+                  $curso = isset($_POST["sltcurso"]) ? $_POST["sltcurso"] : 'NI';
+                  $periodo = isset($_POST["periodo"]) ? $_POST["periodo"] : [];
+                  
+                  echo "$usuarios matriculado em $curso";
+                  echo "<h3>Períodos: </h3>";
+
+                  echo "<ul>";
+                  foreach ($periodo as $p){
+                        echo "<li>$p</li>";
+                  }
+                  echo "</ul>";
+
+            }
+      ?>
 </body>
 </html>
